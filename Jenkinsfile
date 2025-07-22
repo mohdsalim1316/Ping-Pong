@@ -21,5 +21,18 @@ pipeline {
                 '''
             }
         }
+        stage('Test') {
+            steps {
+                sh '''
+                    source $VENV/bin/activate
+                    pytest --junitxml=reports/results.xml
+                '''
+            }
+            post {
+                always {
+                    junit 'reports/results.xml'
+                }
+            }
+        }
     }
 }
